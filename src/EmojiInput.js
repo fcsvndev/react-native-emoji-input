@@ -433,7 +433,16 @@ class EmojiInput extends React.PureComponent {
 
     render() {
         const { selectedEmoji, offsetY } = this.state;
-        const { enableSearch, width, renderAheadOffset } = this.props;
+        const {
+            enableSearch,
+            width,
+            renderAheadOffset,
+            placeholder,
+            inputSearchStyle,
+            textEmptySearchResult,
+            textEmptySearchResultStyle,
+            footerContainerStyle
+        } = this.props;
         return (
             <View
                 style={{
@@ -449,20 +458,10 @@ class EmojiInput extends React.PureComponent {
                             this.textInput = input;
                         }}
                         placeholderTextColor={'#A0A0A2'}
-                        style={{
-                            backgroundColor: 'white',
-                            borderColor: '#A0A0A2',
-                            borderWidth: 0.5,
-                            color: 'black',
-                            fontSize: responsiveFontSize(2),
-                            padding: 10,
-                            paddingLeft: 15,
-                            borderRadius: 15,
-                            margin: 10,
-                        }}
+                        style={[styles.inputSearchDefault, inputSearchStyle]}
                         returnKeyType={'search'}
                         clearButtonMode={'always'}
-                        placeholder={'Search emoji'}
+                        placeholder={placeholder}
                         autoCorrect={false}
                         onChangeText={text => {
                             this.setState({
@@ -499,7 +498,7 @@ class EmojiInput extends React.PureComponent {
                 )}
                 {this.state.emptySearchResult && (
                     <View style={styles.emptySearchResultContainer}>
-                        <Text>No search results.</Text>
+                        <Text style={textEmptySearchResultStyle}>{textEmptySearchResult}</Text>
                     </View>
                 )}
                 <RecyclerListView
@@ -514,7 +513,7 @@ class EmojiInput extends React.PureComponent {
                 {!this.state.searchQuery &&
                     this.props.showCategoryTab && (
                         <TouchableWithoutFeedback>
-                            <View style={styles.footerContainer}>
+                            <View style={[styles.footerContainer, footerContainerStyle]}>
                                 {_
                                     .drop(
                                         category,
@@ -719,6 +718,17 @@ const styles = {
     },
     skinEmoji: {
         flex: 1
+    },
+    inputSearchDefault: {
+        backgroundColor: 'white',
+        borderColor: '#A0A0A2',
+        borderWidth: 0.5,
+        color: 'black',
+        fontSize: responsiveFontSize(2),
+        padding: 10,
+        paddingLeft: 15,
+        borderRadius: 15,
+        margin: 10,
     }
 };
 
